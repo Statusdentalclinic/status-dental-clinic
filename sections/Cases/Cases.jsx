@@ -1,7 +1,10 @@
+"use client";
 import React from "react";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { fade_up_variants } from "@/utils/variants";
 // -----------Import MUI components--------------//
 import Button from "@mui/material/Button";
 import { ThemeProvider } from "@mui/material/styles";
@@ -21,9 +24,14 @@ const Cases = () => {
 
   return (
     <>
-      <section className="flex flex-col w-full h-auto py-[2rem] container-padding">
+      <motion.section
+        className="flex flex-col w-full h-auto py-[2rem] container-padding"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.22 }}
+      >
         <div className="flex flex-col lg:flex-row w-full h-full justify-center items-center lg:justify-start lg:items-center lg:mt-10">
-          <div className="flex flex-col w-full sm:w-[80%] lg:w-1/2 h-full lg:mr-5">
+          <motion.div variants={fade_up_variants} className="flex flex-col w-full sm:w-[80%] lg:w-1/2 h-full lg:mr-5">
             <p className="blue-text text-center lg:text-start">
               {t("nameTitle")}
             </p>
@@ -34,15 +42,21 @@ const Cases = () => {
             <p className="font-medium text-center lg:text-start mt-10 mb-10 lg:mb-0">
               {t("Description")}
             </p>
-          </div>
-          <div className="flex w-full sm:w-[80%] lg:w-1/2 h-full rounded-md overflow-hidden lg:ml-5">
+          </motion.div>
+          <motion.div
+            className="interactive-card flex w-full sm:w-[80%] lg:w-1/2 h-full rounded-md overflow-hidden lg:ml-5"
+            initial={{ opacity: 0, x: 34, scale: 0.98 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.62, ease: [0.17, 0.55, 0.55, 1] }}
+          >
             <Slider Before="/Before.webp" After="/After.webp" />
-          </div>
+          </motion.div>
         </div>
         <div className="flex w-full justify-center lg:justify-start items-start mt-10 lg:mt-0">
           <Link
             href={`/${locale}/cases`}
-            className="flex justify-start items-center my-5 lg:my-10"
+            className="premium-button-shell flex justify-start items-center my-5 lg:my-10"
             aria-label={t("MoreLong")}
           >
             <ThemeProvider theme={theme}>
@@ -61,14 +75,14 @@ const Cases = () => {
                 }}
               >
                 {t("More")}
-                <span className="text-[1.5rem] ml-3">
+                <span className="interactive-icon text-[1.5rem] ml-3">
                   <BsArrowUpRightCircle />
                 </span>
               </Button>
             </ThemeProvider>
           </Link>
         </div>
-      </section>
+      </motion.section>
     </>
   );
 };

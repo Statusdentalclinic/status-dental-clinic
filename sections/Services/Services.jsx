@@ -5,6 +5,12 @@ import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import {
+  fade_up_variants,
+  service_card_variants,
+  stagger_container_variants,
+} from "@/utils/variants";
 // -----------Import MUI components--------------//
 import Button from "@mui/material/Button";
 import { ThemeProvider } from "@mui/material/styles";
@@ -34,15 +40,22 @@ const Services = () => {
   if (isMobile) {
     return (
       <section className="flex w-full h-full justify-start items-center flex-col py-[2rem] container-padding">
-        <div className="flex flex-col w-full h-auto justify-center items-center m-5">
+        <motion.div
+          className="flex flex-col w-full h-auto justify-center items-center m-5"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.35 }}
+          variants={fade_up_variants}
+        >
           <p className="blue-text">{t("nameTitle")}</p>
           <h2 className="title-text-m text-center">
             {t("Title1")} <span className="blue-text">{t("Title2")}</span>{" "}
             {t("Title3")}
           </h2>
-        </div>
+        </motion.div>
 
-        <div className="flex w-[19rem] h-[4.5rem] justify-start items-center shadow-md border-t border-[1px] rounded-lg py-2 px-3 my-3 mx-auto">
+        <motion.div className="flex flex-col" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stagger_container_variants}>
+        <motion.div variants={service_card_variants} className="interactive-card flex w-[19rem] h-[4.5rem] justify-start items-center shadow-md border-t border-[1px] rounded-lg py-2 px-3 my-3 mx-auto">
           <div className="flex relative w-[3.125rem] h-[3.25rem]">
             <Image
               src="/diagnostic.svg"
@@ -53,8 +66,8 @@ const Services = () => {
             />
           </div>
           <h3 className="font-bold text-[1.75rem] ml-3">{t("Diagnostic")}</h3>
-        </div>
-        <div className="flex w-[19rem] h-[4.5rem] justify-start items-center shadow-md border-t border-[1px] rounded-lg py-2 px-3 my-3 mx-auto">
+        </motion.div>
+        <motion.div variants={service_card_variants} className="interactive-card flex w-[19rem] h-[4.5rem] justify-start items-center shadow-md border-t border-[1px] rounded-lg py-2 px-3 my-3 mx-auto">
           <div className="flex relative w-[3.125rem] h-[3.25rem]">
             <Image
               src="/prevention.svg"
@@ -65,8 +78,8 @@ const Services = () => {
             />
           </div>
           <h3 className="font-bold text-[1.75rem] ml-3">{t("Preventive")}</h3>
-        </div>
-        <div className="flex w-[19rem] h-[4.5rem] justify-start items-center shadow-md border-t border-[1px] rounded-lg py-2 px-3 my-3 mx-auto">
+        </motion.div>
+        <motion.div variants={service_card_variants} className="interactive-card flex w-[19rem] h-[4.5rem] justify-start items-center shadow-md border-t border-[1px] rounded-lg py-2 px-3 my-3 mx-auto">
           <div className="flex relative w-[3.125rem] h-[3.25rem]">
             <Image
               src="/orthopedics.svg"
@@ -77,8 +90,8 @@ const Services = () => {
             />
           </div>
           <h3 className="font-bold text-[1.75rem] ml-3">{t("Orthopedics")}</h3>
-        </div>
-        <div className="flex w-[19rem] h-[4.5rem] justify-start items-center shadow-md border-t border-[1px] rounded-lg py-2 px-3 my-3 mx-auto">
+        </motion.div>
+        <motion.div variants={service_card_variants} className="interactive-card flex w-[19rem] h-[4.5rem] justify-start items-center shadow-md border-t border-[1px] rounded-lg py-2 px-3 my-3 mx-auto">
           <div className="flex relative w-[3.125rem] h-[3.25rem]">
             <Image
               src="/orthodontics.svg"
@@ -89,8 +102,8 @@ const Services = () => {
             />
           </div>
           <h3 className="font-bold text-[1.75rem] ml-3">{t("Orthodontics")}</h3>
-        </div>
-        <div className="flex w-[19rem] h-[4.5rem] justify-start items-center shadow-md border-t border-[1px] rounded-lg py-2 px-3 my-3 mx-auto">
+        </motion.div>
+        <motion.div variants={service_card_variants} className="interactive-card flex w-[19rem] h-[4.5rem] justify-start items-center shadow-md border-t border-[1px] rounded-lg py-2 px-3 my-3 mx-auto">
           <div className="flex relative w-[3.125rem] h-[3.25rem]">
             <Image
               src="/Surgery.svg"
@@ -101,8 +114,8 @@ const Services = () => {
             />
           </div>
           <h3 className="font-bold text-[1.75rem] ml-3">{t("Surgery")}</h3>
-        </div>
-        <div className="flex w-[19rem] h-[4.5rem] justify-start items-center shadow-md border-t border-[1px] rounded-lg py-2 px-3 my-3 mx-auto">
+        </motion.div>
+        <motion.div variants={service_card_variants} className="interactive-card flex w-[19rem] h-[4.5rem] justify-start items-center shadow-md border-t border-[1px] rounded-lg py-2 px-3 my-3 mx-auto">
           <div className="flex relative w-[3.125rem] h-[3.25rem]">
             <Image
               src="/Implant.svg"
@@ -113,10 +126,11 @@ const Services = () => {
             />
           </div>
           <h3 className="font-bold text-[1.75rem] ml-3">{t("Implantation")}</h3>
-        </div>
+        </motion.div>
+        </motion.div>
         <Link
           href={`/${locale}/service`}
-          className="flex justify-start items-center my-5 lg:my-10"
+          className="premium-button-shell flex justify-start items-center my-5 lg:my-10"
           aria-label={t("MoreLong")}
         >
           <ThemeProvider theme={theme}>
@@ -135,7 +149,7 @@ const Services = () => {
               }}
             >
               {t("More")}
-              <span className="text-[1.5rem] ml-3">
+              <span className="interactive-icon text-[1.5rem] ml-3">
                 <BsArrowUpRightCircle />
               </span>
             </Button>
@@ -148,16 +162,22 @@ const Services = () => {
   if (isDesktop) {
     return (
       <section className="flex w-full h-full lg:h-[55rem] justify-start items-center flex-col py-[2rem] px-[1rem] lg:px-[2rem] xl:px-[10rem] 2xl:px-[20rem]">
-        <div className="flex flex-col w-full sm:w-[36.5rem] h-auto justify-center items-center m-5">
+        <motion.div
+          className="flex flex-col w-full sm:w-[36.5rem] h-auto justify-center items-center m-5"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.35 }}
+          variants={fade_up_variants}
+        >
           <p className="blue-text">{t("nameTitle")}</p>
           <h2 className="title-text-m sm:title-text text-center">
             {t("Title1")} <span className="blue-text">{t("Title2")}</span>{" "}
             {t("Title3")}
           </h2>
-        </div>
+        </motion.div>
         <div className="flex w-full h-full lg:bg-none bg-[url('/bg-tooth.webp')] bg-no-repeat bg-contain bg-center">
           <div className="flex flex-col w-1/2 lg:w-1/3 h-full justify-start p-5">
-            <div className="flex flex-col w-full h-[10rem] my-5 justify-start">
+            <motion.div variants={fade_up_variants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} className="interactive-card flex flex-col w-full h-[10rem] my-5 justify-start rounded-md p-2">
               <div className="flex w-full h-auto justify-end my-2">
                 <h3 className="font-bold text-[1.5rem] lg:text-[1.75rem] mr-3">
                   {t("Diagnostic")}
@@ -173,8 +193,8 @@ const Services = () => {
                 </div>
               </div>
               <p className="text-right">{t("DiagnosticDescription")}</p>
-            </div>
-            <div className="flex flex-col w-full h-[10rem] my-5 justify-start">
+            </motion.div>
+            <motion.div variants={fade_up_variants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} className="interactive-card flex flex-col w-full h-[10rem] my-5 justify-start rounded-md p-2">
               <div className="flex w-full h-auto justify-end my-2">
                 <h3 className="font-bold text-[1.5rem] lg:text-[1.75rem] mr-3">
                   {t("Preventive")}
@@ -190,8 +210,8 @@ const Services = () => {
                 </div>
               </div>
               <p className="text-right">{t("PreventiveDescription")}</p>
-            </div>
-            <div className="flex flex-col w-full h-[10rem] my-5 justify-start">
+            </motion.div>
+            <motion.div variants={fade_up_variants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} className="interactive-card flex flex-col w-full h-[10rem] my-5 justify-start rounded-md p-2">
               <div className="flex w-full h-auto justify-end my-2">
                 <h3 className="font-bold text-[1.5rem] lg:text-[1.75rem] mr-3">
                   {t("Orthopedics")}
@@ -207,9 +227,9 @@ const Services = () => {
                 </div>
               </div>
               <p className="text-right">{t("OrthopedicsDescription")}</p>
-            </div>
+            </motion.div>
           </div>
-          <div className="hidden lg:flex flex-col w-1/3 h-full justify-end items-center p-5">
+          <motion.div className="hidden lg:flex flex-col w-1/3 h-full justify-end items-center p-5" initial={{ opacity: 0, scale: 0.96 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.7, ease: [0.17, 0.55, 0.55, 1] }}>
             <Image
               src="/ServiceTooth.webp"
               alt="tooth"
@@ -220,7 +240,7 @@ const Services = () => {
 
             <Link
               href={`/${locale}/service`}
-              className="hidden md:flex justify-start items-center my-5 lg:my-10"
+              className="premium-button-shell hidden md:flex justify-start items-center my-5 lg:my-10"
               aria-label={t("MoreLong")}
             >
               <ThemeProvider theme={theme}>
@@ -239,15 +259,15 @@ const Services = () => {
                   }}
                 >
                   {t("More")}
-                  <span className="text-[1.5rem] ml-3">
+                  <span className="interactive-icon text-[1.5rem] ml-3">
                     <BsArrowUpRightCircle />
                   </span>
                 </Button>
               </ThemeProvider>
             </Link>
-          </div>
+          </motion.div>
           <div className="flex flex-col w-1/2 lg:w-1/3 h-full justify-start p-5">
-            <div className="flex flex-col w-full h-[10rem] my-5 justify-start">
+            <motion.div variants={fade_up_variants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} className="interactive-card flex flex-col w-full h-[10rem] my-5 justify-start rounded-md p-2">
               <div className="flex w-full h-auto justify-start my-2">
                 <div className="flex relative w-[3.125rem] h-[3.25rem]">
                   <Image
@@ -263,8 +283,8 @@ const Services = () => {
                 </h3>
               </div>
               <p className="text-left">{t("OrthodonticsDescription")}</p>
-            </div>
-            <div className="flex flex-col w-full h-[10rem] my-5 justify-start end">
+            </motion.div>
+            <motion.div variants={fade_up_variants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} className="interactive-card flex flex-col w-full h-[10rem] my-5 justify-start end rounded-md p-2">
               <div className="flex w-full h-auto justify-start my-2">
                 <div className="flex relative w-[3.125rem] h-[3.25rem]">
                   <Image
@@ -280,8 +300,8 @@ const Services = () => {
                 </h3>
               </div>
               <p className="text-left">{t("SurgeryDescription")}</p>
-            </div>
-            <div className="flex flex-col w-full h-[10rem] my-5 justify-start end">
+            </motion.div>
+            <motion.div variants={fade_up_variants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} className="interactive-card flex flex-col w-full h-[10rem] my-5 justify-start end rounded-md p-2">
               <div className="flex w-full h-auto justify-start my-2">
                 <div className="flex relative w-[3.125rem] h-[3.25rem]">
                   <Image
@@ -297,13 +317,13 @@ const Services = () => {
                 </h3>
               </div>
               <p className="text-left">{t("ImplantationDescription")}</p>
-            </div>
+            </motion.div>
           </div>
         </div>
         <div className="lg:hidden flex w-full h-auto items-center justify-center">
           <Link
             href={`/${locale}/service`}
-            className="flex justify-start items-center my-5 lg:my-10"
+            className="premium-button-shell flex justify-start items-center my-5 lg:my-10"
             aria-label={t("MoreLong")}
           >
             <ThemeProvider theme={theme}>
@@ -322,8 +342,8 @@ const Services = () => {
                 }}
               >
                 {t("More")}
-                <span className="text-[1.5rem] ml-3">
-                  <BsArrowUpRightCircle />
+                  <span className="interactive-icon text-[1.5rem] ml-3">
+                    <BsArrowUpRightCircle />
                 </span>
               </Button>
             </ThemeProvider>

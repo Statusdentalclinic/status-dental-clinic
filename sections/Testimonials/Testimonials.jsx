@@ -1,6 +1,9 @@
+"use client";
 import React from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { fade_up_variants } from "@/utils/variants";
 
 // -----------Import React icons--------------//
 import { FaStar } from "react-icons/fa";
@@ -49,14 +52,26 @@ const Testimonials = () => {
 
   return (
     <>
-      <section className="flex relative flex-col w-full h-auto py-10 justify-start items-center bg-[url('/BackgroundAbstraction.png')] bg-cover bg-center">
-        <div className="flex flex-col max-w-[52rem] h-auto justify-center items-center m-5 mb-10">
+      <motion.section
+        className="flex relative flex-col w-full h-auto py-10 justify-start items-center bg-[url('/BackgroundAbstraction.png')] bg-cover bg-center"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        <motion.div
+          variants={fade_up_variants}
+          className="flex flex-col max-w-[52rem] h-auto justify-center items-center m-5 mb-10"
+        >
           <p className="blue-text">{t("nameTitle")}</p>
           <h2 className="title-text-m sm:title-text text-center">
             {t("Title1")}
           </h2>
-        </div>
-        <div className="flex relative flex-col sm:flex-row w-full sm:w-[80%] h-auto sm:h-full justify-center items-center sm:px-[1rem]">
+        </motion.div>
+        <motion.div
+          variants={fade_up_variants}
+          custom={0.12}
+          className="flex relative flex-col sm:flex-row w-full sm:w-[80%] h-auto sm:h-full justify-center items-center sm:px-[1rem]"
+        >
           {/* <button
             className="hidden sm:flex custom-prev m-4 sm:m-10 text-[1.5rem] text-[#444] hover:text-[#006eff]"
             aria-label="Previous slide"
@@ -67,8 +82,8 @@ const Testimonials = () => {
             <Swiper
               modules={[Navigation, Pagination]}
               navigation={{
-                prevEl: ".custom-prev",
-                nextEl: ".custom-next",
+                prevEl: ".testimonials-prev",
+                nextEl: ".testimonials-next",
               }}
               pagination={{
                 clickable: true,
@@ -106,9 +121,9 @@ const Testimonials = () => {
                         : "lg:items-center"
                     }`}
                   >
-                    <div className="flex flex-col w-full min-h-[55%] h-auto rounded-lg p-4 shadow-lg border-[1px] bg-[#fdfdfd]">
+                    <div className="interactive-card flex flex-col w-full min-h-[55%] h-auto rounded-lg p-4 shadow-lg border-[1px] border-[#006eff18] bg-[#fdfdfd]">
                       <div className="flex pb-2">
-                        <div className="flex relative min-w-[4rem] h-[4rem] rounded-full overflow-hidden">
+                        <div className="flex relative min-w-[4rem] h-[4rem] rounded-full overflow-hidden ring-2 ring-[#006eff18]">
                           <Image
                             src={testimonial.image}
                             alt={`Photo of ${testimonial.name}, ${testimonial.specialization}`}
@@ -126,7 +141,10 @@ const Testimonials = () => {
                           </p> */}
                           <span className="flex mx-2 my-3 text-[#FF9800]">
                             {[...Array(5)].map((_, i) => (
-                              <FaStar key={i} className="mx-[3px]" />
+                              <FaStar
+                                key={i}
+                                className="mx-[3px] transition-transform duration-200 hover:scale-110"
+                              />
                             ))}
                           </span>
                         </div>
@@ -162,22 +180,22 @@ const Testimonials = () => {
           >
             <BsArrowRightCircle />
           </button> */}
-        </div>
+        </motion.div>
         <div className="flex sm:hidden absolute bottom-[5rem] right-[calc(50%-56px)] z-30">
           <button
-            className="custom-prev m-4 sm:m-10 text-[1.5rem] text-[#444] hover:text-[#006eff]"
+            className="testimonials-prev m-4 sm:m-10 text-[1.5rem] text-[#444] transition duration-200 hover:scale-110 hover:text-[#006eff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#006eff]"
             aria-label="Previous slide"
           >
             <BsArrowLeftCircle />
           </button>
           <button
-            className="custom-next m-4 sm:m-10 text-[1.5rem] text-[#444] hover:text-[#006eff]"
+            className="testimonials-next m-4 sm:m-10 text-[1.5rem] text-[#444] transition duration-200 hover:scale-110 hover:text-[#006eff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#006eff]"
             aria-label="Next slide"
           >
             <BsArrowRightCircle />
           </button>
         </div>
-      </section>
+      </motion.section>
     </>
   );
 };

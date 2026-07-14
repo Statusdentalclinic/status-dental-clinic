@@ -723,6 +723,8 @@
     "currence": "UAH",
     "loading": "Loading...",
     "Error loading data": "Error loading data",
+    "emptyTitle": "Prices are being prepared",
+    "emptyDescription": "Price categories are ready to be added in the admin panel.",
     "close": "Close"
   },
 

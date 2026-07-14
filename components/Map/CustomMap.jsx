@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { useTranslations } from "next-intl";
 import { TbRouteAltRight } from "react-icons/tb";
@@ -19,10 +19,10 @@ const GoogleMapComponent = ({ position }) => {
   const [userLocation, setUserLocation] = useState(null);
   const [isLocationFetched, setIsLocationFetched] = useState(false);
 
-  const parsedPosition = {
+  const parsedPosition = useMemo(() => ({
     lat: parseFloat(position[0]),
     lng: parseFloat(position[1]),
-  };
+  }), [position]);
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
@@ -34,7 +34,7 @@ const GoogleMapComponent = ({ position }) => {
       map.panTo(parsedPosition);
       map.setZoom(defaultZoom);
     },
-    [position]
+    [parsedPosition]
   );
 
   const handleGeolocation = () => {
@@ -54,7 +54,7 @@ const GoogleMapComponent = ({ position }) => {
     }
   };
 
-  const openMapWithRoute = () => {
+  const openMapWithRoute = useCallback(() => {
     if (userLocation) {
       const userLocationString = `${userLocation.latitude},${userLocation.longitude}`;
       const destination = `${parsedPosition.lat},${parsedPosition.lng}`;
@@ -62,7 +62,14 @@ const GoogleMapComponent = ({ position }) => {
       const url = `https://www.google.com/maps/dir/?api=1&origin=${userLocationString}&destination=${destination}&travelmode=driving`;
       window.open(url, "_blank");
     }
-  };
+  }, [parsedPosition, userLocation]);
+
+  useEffect(() => {
+    if (isLocationFetched) {
+      openMapWithRoute();
+      setIsLocationFetched(false);
+    }
+  }, [isLocationFetched, openMapWithRoute]);
 
   if (loadError) return <div>{t("Error_loading")}</div>;
   if (!isLoaded) return <div>{t("loading")}</div>;
@@ -81,16 +88,13 @@ const GoogleMapComponent = ({ position }) => {
       {/* Button for requesting geolocation and building a route */}
       <button
         onClick={handleGeolocation}
-        className="flex absolute top-24 left-2.5 w-[13.7rem] h-auto justify-center items-center bg-[#fff] blue-text font-semibold px-4 py-2 shadow border-[1px] border-[#006eff] rounded-lg hover:bg-[#d9d9d9] transition"
+        className="premium-button-shell flex absolute top-24 left-2.5 w-[13.7rem] h-auto justify-center items-center bg-[#fdfdfd] blue-text font-semibold px-4 py-2 shadow border-[1px] border-[#006eff] rounded-lg transition-colors hover:bg-[#eef6ff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#006eff]"
       >
         {t("Route_button")}
-        <span className="m-2 text-[2rem]">
+        <span className="interactive-icon m-2 text-[2rem]">
           <TbRouteAltRight />
         </span>
       </button>
-
-      {/* If geolocation is received, the route opens automatically */}
-      {isLocationFetched && openMapWithRoute()}
     </div>
   );
 };

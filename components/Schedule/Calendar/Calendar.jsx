@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import styles from "./Calendar.module.css";
 // ---Import React components----//
@@ -69,19 +69,19 @@ export default function Calendar({
     } else {
       setSlots([]); // Clear slots if no doctor is selected
     }
-  }, [selectedDoctor, resetSelectedDates]);
+  }, [isLoadingSchedule, onDaySchedule, resetSelectedDates, selectedDoctor]);
 
   // -----Reset error message after select doctor--------//
   useEffect(() => {
     if (selectedDoctor && errorMessage) {
       setErrorMessage(""); // Reset error message if doctor is selected
     }
-  }, [selectedDoctor]);
+  }, [errorMessage, selectedDoctor]);
 
   // -----Send date--------//
   useEffect(() => {
     onTransferableDate(currentDate); // Pass the current date to parent component
-  }, [currentDate]);
+  }, [currentDate, onTransferableDate]);
 
   const getMonthDays = (year, month) => new Date(year, month + 1, 0).getDate();
 
@@ -125,10 +125,10 @@ export default function Calendar({
   const daysInMonth = getMonthDays(year, month);
   const startDay = getStartDayOfMonth(year, month);
 
-  const daysArray = Array.from({ length: 42 }, (_, i) => {
+  const daysArray = useMemo(() => Array.from({ length: 42 }, (_, i) => {
     const day = i - startDay + 1;
     return day > 0 && day <= daysInMonth ? day : "";
-  });
+  }), [daysInMonth, startDay]);
 
   const monthName = currentDate.toLocaleString(local, { month: "long" });
   const capitalizedMonthName = monthName[0].toUpperCase() + monthName.slice(1);
@@ -139,12 +139,12 @@ export default function Calendar({
   const todayYear = today.getFullYear();
 
   // -----------Check if dates are in the past-----------//
-  const isPastDateFn = (day) => {
+  const isPastDateFn = useCallback((day) => {
     return (
       day &&
       new Date(year, month, day) < new Date(todayYear, todayMonth, todayDay)
     );
-  };
+  }, [month, todayDay, todayMonth, todayYear, year]);
 
   // ---------Select checkbox---------//
   const handleCheckbox = () => {
@@ -163,7 +163,7 @@ export default function Calendar({
     } else {
       setSelectedDates([]);
     }
-  }, [isSelectedCheckbox]);
+  }, [daysArray, isPastDateFn, isSelectedCheckbox, month, onDateSelect, selectedDoctor, year]);
 
   // -----------Select a day in the calendar-----------//
   const handleDayClick = (day) => {

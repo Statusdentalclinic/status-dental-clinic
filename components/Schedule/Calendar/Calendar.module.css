@@ -3,10 +3,11 @@
   min-width: 400px;
   width: 100%;
   height: auto;
-  border: 1px solid #ddd;
+  border: 1px solid #d9e7ff;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: #f0f0f0;
+  box-shadow: 0 18px 34px rgba(0, 52, 120, 0.1);
+  background: linear-gradient(180deg, #ffffff 0%, #f4f8ff 100%);
+  overflow: hidden;
 }
 
 .header {
@@ -29,13 +30,18 @@
   cursor: pointer;
   font-size: 2rem;
   color: #fff;
+  border-radius: 999px;
+  transition: transform 180ms ease, background-color 180ms ease,
+    color 180ms ease;
 }
 
 .header button:hover {
   color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
 }
 .header button {
-  color: #115eef;
+  color: #ffffff;
 }
 
 .checkbox {
@@ -70,6 +76,9 @@
   background-color: #f9f9f9;
   border-radius: 4px;
   cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 160ms ease, background-color 160ms ease,
+    border-color 160ms ease, box-shadow 160ms ease;
 }
 
 .slot {
@@ -82,12 +91,16 @@
 }
 
 .day:hover {
-  background-color: #f1f1f1;
+  background-color: #eaf3ff;
+  border-color: #9ac5ff;
+  box-shadow: 0 8px 18px rgba(0, 110, 255, 0.12);
+  transform: translateY(-1px);
 }
 
 .today {
-  color: black;
+  color: #006eff;
   font-weight: 600;
+  border-color: #006eff50;
 }
 
 .emptyDay {
@@ -98,17 +111,18 @@
   background-color: transparent;
 }
 .selected {
-  background-color: #3498db;
+  background-color: #006eff;
   color: white;
+  box-shadow: 0 10px 20px rgba(0, 110, 255, 0.2);
 }
 .disabled {
-  background-color: #55555520;
+  background-color: #eef0f4;
   color: #22222250;
   pointer-events: none;
 }
 
 .selected:hover {
-  background-color: #74bae9;
+  background-color: #005bd3;
   color: white;
 }
 .selectedDates {

@@ -49,7 +49,7 @@ const SliderTime = ({ onTimeSelect, selectedDates }) => {
     if (selectedDates.length > 0) {
       onTimeSelect(timeArray);
     }
-  }, [selectedDates, selectedValue, timeRange]);
+  }, [onTimeSelect, selectedDates.length, timeArray]);
   // ---------------------------------------------------------//
   const handleChangeRadioButton = (event) => {
     setSelectedValue(Number(event.target.value));
@@ -129,12 +129,25 @@ const SliderTime = ({ onTimeSelect, selectedDates }) => {
             color: "#006eff",
             "& .MuiSlider-thumb": {
               borderColor: "#006eff",
+              boxShadow: "0 8px 18px rgba(0, 110, 255, 0.22)",
+              transition: "transform 160ms ease, box-shadow 160ms ease",
+              "&:hover, &.Mui-focusVisible": {
+                transform: "scale(1.12)",
+                boxShadow: "0 10px 24px rgba(0, 110, 255, 0.3)",
+              },
             },
             "& .MuiSlider-track": {
               backgroundColor: "#006eff",
+              border: "none",
             },
             "& .MuiSlider-rail": {
               backgroundColor: "#b3d4ff", // менш насичений колір для фону
+              opacity: 1,
+            },
+            "& .MuiSlider-valueLabel": {
+              backgroundColor: "#006eff",
+              borderRadius: "999px",
+              fontFamily: "var(--font-montserrat)",
             },
           }}
           value={timeRange}
@@ -145,7 +158,7 @@ const SliderTime = ({ onTimeSelect, selectedDates }) => {
           min={0}
           max={Math.floor(14 * (60 / selectedValue))}
         />
-        <div>
+        <div className="mt-3 rounded-md border border-[#006eff20] bg-[#006eff08] px-4 py-3 text-center font-semibold blue-text">
           {t("Selected time")}{" "}
           {`${formatTime(timeRange[0], selectedValue)} - ${formatTime(
             timeRange[1],

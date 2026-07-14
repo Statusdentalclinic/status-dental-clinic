@@ -40,3 +40,18 @@ Desktop.ini
 # Docker
 docker-compose.override.yml
 .envrc
+# Local agent tooling and generated code maps
+.agents/
+.superpowers/
+graphify-out/
+
+# Test, tooling, and deployment caches
+coverage/
+.nyc_output/
+.vercel/
+.turbo/
+.eslintcache
+*.tsbuildinfo
+
+# macOS Finder metadata
+.DS_Store

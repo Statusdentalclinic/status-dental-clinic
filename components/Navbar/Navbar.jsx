@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { motion, useScroll, useVelocity, useCycle } from "framer-motion";
+import { motion, useScroll, useVelocity } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -39,12 +39,12 @@ const Navbar = () => {
           return;
         }
       }),
-    []
+    [scrollVelocity]
   );
 
   useEffect(
     () => scrollY.on("change", (latest) => setIsAtTop(latest <= 0)),
-    []
+    [scrollY]
   );
 
   useEffect(
@@ -74,7 +74,9 @@ const Navbar = () => {
         animate={{ y: isInView ? 0 : -slideDistance }}
         transition={{ duration: 0.2, delay: 0.25, ease: "easeInOut" }}
         style={{ height: slideDistance }}
-        className="flex fixed top-0 right-0 w-full min-h-[6rem] justify-center items-center z-50 bg-[#fff] px-[1rem] lg:px-[2rem] xl:px-[10rem] 2xl:px-[20rem]"
+        className={`flex fixed top-0 right-0 w-full min-h-[6rem] justify-center items-center z-50 bg-[#fff] px-[1rem] lg:px-[2rem] xl:px-[10rem] 2xl:px-[20rem] transition-shadow duration-300 ${
+          isAtTop ? "" : "shadow-[0_12px_30px_rgba(0,52,120,0.10)]"
+        }`}
       >
         <div className="flex flex-col w-full h-full justify-center items-start border-b-2 border-[#006eff]">
           <div className="flex w-full justify-center items-center h-10 text-[0.8rem] sm:text-[1rem] py-1 bg-[#006eff10]">
@@ -112,7 +114,8 @@ const Navbar = () => {
               {links.map((link) => (
                 <Link key={link.href} href={link.href}>
                   <span
-                    className={`mx-[0rem] text-nowrap inline-block transition ease-in-out hover:scale-[1.04] hover:text-[#006eff] ${
+                    data-active={pathname === link.href}
+                    className={`nav-link-underline mx-[0rem] text-nowrap inline-block transition ease-in-out hover:scale-[1.04] hover:text-[#006eff] ${
                       pathname === link.href ? "blue-text" : "text-black"
                     }`}
                   >
@@ -125,7 +128,7 @@ const Navbar = () => {
 
             <Link
               href={`/${locale}/appointment`}
-              className="hidden lg:flex justify-end items-center ml-[2rem]"
+              className="premium-button-shell hidden lg:flex justify-end items-center ml-[2rem]"
             >
               <ThemeProvider theme={theme}>
                 <Button

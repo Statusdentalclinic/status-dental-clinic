@@ -1,9 +1,12 @@
+"use client";
 import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { fade_up_variants } from "@/utils/variants";
 
 // import Swiper core and required modules
 import { Navigation, Pagination } from "swiper/modules";
@@ -81,19 +84,31 @@ const Team = () => {
   ];
 
   return (
-    <section className="flex flex-col w-full h-auto pb-5 sm:h-[55rem] justify-start items-center bg-[url('/IMG_BG.webp')] bg-cover bg-center">
-      <div className="flex flex-col max-w-[52rem] h-auto justify-center items-center m-5 mb-10">
+    <motion.section
+      className="flex flex-col w-full h-auto pb-5 sm:h-[55rem] justify-start items-center bg-[url('/IMG_BG.webp')] bg-cover bg-center"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+    >
+      <motion.div
+        variants={fade_up_variants}
+        className="flex flex-col max-w-[52rem] h-auto justify-center items-center m-5 mb-10"
+      >
         <p className="blue-text">{t("nameTitle")}</p>
         <h2 className="title-text-m sm:title-text text-center">
           {t("Title1")} <span className="blue-text">{t("Title2")}</span>
         </h2>
         <p className="text-center font-medium m-5">{t("Description")}</p>
-      </div>
+      </motion.div>
 
-      <div className="flex w-[70%] sm:w-[80%] h-auto sm:h-full justify-center items-center">
+      <motion.div
+        variants={fade_up_variants}
+        custom={0.12}
+        className="flex w-[70%] sm:w-[80%] h-auto sm:h-full justify-center items-center"
+      >
         {/* Button prev */}
         <button
-          className={`custom-prev m-4 sm:m-10 text-[1.5rem] text-[#444] hover:text-[#006eff] transition-opacity duration-300 ${
+          className={`custom-prev m-4 sm:m-10 text-[1.5rem] text-[#444] transition duration-200 hover:scale-110 hover:text-[#006eff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#006eff] ${
             isBeginning ? "opacity-0 pointer-events-none" : "opacity-100"
           }`}
           aria-label="Previous slide"
@@ -141,17 +156,17 @@ const Team = () => {
           >
             {doctors.map((doctor) => (
               <SwiperSlide key={doctor.id} className="pb-10">
-                <div className="flex relative sm:max-w-[20rem] h-full sm:h-full rounded-xl overflow-hidden mx-auto">
+                <div className="interactive-card group flex relative sm:max-w-[20rem] h-full sm:h-full rounded-xl overflow-hidden mx-auto border border-[#006eff18]">
                   <div className="flex relative w-[15rem] sm:w-[20rem] h-[20rem] sm:h-[25rem]">
                     <Image
                       src={doctor.image}
                       alt={doctor.name}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover"
+                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                     />
                   </div>
-                  <div className="flex flex-col justify-center items-center w-full h-1/4 absolute bottom-0 left-0 bg-[#006eff] opacity-75 text-white p-2">
+                  <div className="flex flex-col justify-center items-center w-full h-1/4 absolute bottom-0 left-0 bg-[#006eff] text-white p-2 opacity-85 transition-opacity duration-300 group-hover:opacity-95">
                     <p className="text-center">{doctor.name}</p>
                     <p className="text-center text-[0.8rem]">
                       {doctor.specialization}
@@ -165,19 +180,19 @@ const Team = () => {
 
         {/* Button next */}
         <button
-          className={`custom-next m-4 sm:m-10 text-[1.5rem] text-[#444] hover:text-[#006eff] transition-opacity duration-300 ${
+          className={`custom-next m-4 sm:m-10 text-[1.5rem] text-[#444] transition duration-200 hover:scale-110 hover:text-[#006eff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#006eff] ${
             isEnd ? "opacity-0 pointer-events-none" : "opacity-100"
           }`}
           aria-label="Next slide"
         >
           <BsArrowRightCircle />
         </button>
-      </div>
+      </motion.div>
 
       {/* Button more */}
       <Link
         href={`/${locale}/doctors`}
-        className="flex justify-start items-center my-5 lg:my-10"
+        className="premium-button-shell flex justify-start items-center my-5 lg:my-10"
         aria-label={t("MoreLong")}
       >
         <ThemeProvider theme={theme}>
@@ -196,13 +211,13 @@ const Team = () => {
             }}
           >
             {t("More")}
-            <span className="text-[1.5rem] ml-3">
+            <span className="interactive-icon text-[1.5rem] ml-3">
               <BsArrowUpRightCircle />
             </span>
           </Button>
         </ThemeProvider>
       </Link>
-    </section>
+    </motion.section>
   );
 };
 

@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
+import { fade_up_variants } from "@/utils/variants";
 // -----------Import React Icon--------------//
 import { BsCheck2Circle, BsArrowRightCircle } from "react-icons/bs";
 import { FaChevronDown } from "react-icons/fa6";
@@ -169,13 +171,19 @@ const ServicePage = () => {
       <>
         <section className="flex flex-col w-full h-auto py-[5rem] container-padding">
           {/* Title */}
-          <div className="flex flex-col w-full max-w-[40rem] lg:max-w-[50rem] h-auto mx-auto m-10">
+          <motion.div
+            className="flex flex-col w-full max-w-[40rem] lg:max-w-[50rem] h-auto mx-auto m-10"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.35 }}
+            variants={fade_up_variants}
+          >
             <p className="blue-text mx-auto">{t("nameTitle")}</p>
             <h1 className="title-text-m text-center">
               {t("Title1")} <span className="blue-text">{t("Title2")}</span>{" "}
               {t("Title3")}
             </h1>
-          </div>
+          </motion.div>
           <div className="flex flex-col w-full h-full items-center">
             <div className="flex flex-col w-full max-w-[30rem] justify-center h-auto my-10">
               <h2 className="blue-text font-medium">{t("menuServices")}</h2>
@@ -235,21 +243,30 @@ const ServicePage = () => {
               </FormControl>
             </div>
             <div className="flex flex-col w-auto max-w-[55rem] h-auto">
-              <div className="flex relative w-full min-h-[25rem] rounded-lg overflow-hidden">
-                <Image
-                  src={serviceIMG}
-                  alt={nameService}
-                  priority
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover"
-                />
-              </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={serviceIMG}
+                  className="flex relative w-full min-h-[25rem] rounded-lg overflow-hidden"
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.28, ease: "easeOut" }}
+                >
+                  <Image
+                    src={serviceIMG}
+                    alt={nameService}
+                    priority
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover"
+                  />
+                </motion.div>
+              </AnimatePresence>
               <div className="flex flex-col w-full h-full justify-between">
-                <div className="flex flex-col w-full h-auto">
+                <motion.div key={nameService} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28 }} className="flex flex-col w-full h-auto">
                   <h2 className="text-[2rem] font-bold my-5">{nameService}</h2>
                   <p className="font-normal">{descriptionService}</p>
-                </div>
+                </motion.div>
                 <div className="flex flex-col w-full justify-end">
                   <h3 className="font-semibold my-5">{t("AdvantageTitle")}</h3>
                   <div className="flex w-full h-auto">
@@ -284,13 +301,19 @@ const ServicePage = () => {
       <>
         <section className="flex flex-col w-full h-auto py-[5rem] px-[1rem] lg:px-[2rem] xl:px-[10rem] 2xl:px-[20rem]">
           {/* Title */}
-          <div className="flex flex-col w-full max-w-[40rem] lg:max-w-[50rem] h-auto mx-auto m-10">
+          <motion.div
+            className="flex flex-col w-full max-w-[40rem] lg:max-w-[50rem] h-auto mx-auto m-10"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.35 }}
+            variants={fade_up_variants}
+          >
             <p className="blue-text mx-auto">{t("nameTitle")}</p>
             <h1 className="title-text-m sm:title-text text-center">
               {t("Title1")} <span className="blue-text">{t("Title2")}</span>{" "}
               {t("Title3")}
             </h1>
-          </div>
+          </motion.div>
           <div className="flex w-full h-full">
             <div className="flex flex-col w-1/3 h-full mr-10">
               <div className="flex flex-col w-full h-[41rem] items-center justify-start border-[1px] shadow-lg rounded-lg bg-[#fdfdfd] mb-4 p-4">
@@ -307,7 +330,7 @@ const ServicePage = () => {
                       setAdvantages(service.advantages);
                     }}
                     key={service.id}
-                    className={`flex w-full h-[2.8rem] justify-center items-center border-[1px] border-[#006eff] rounded-lg my-2 p-3 ${
+                  className={`interactive-card flex w-full h-[2.8rem] justify-center items-center border-[1px] border-[#006eff] rounded-lg my-2 p-3 transition-colors ${
                       idService === service.id ? "bg-[#006eff] text-white" : ""
                     }`}
                   >
@@ -319,7 +342,7 @@ const ServicePage = () => {
                         idService === service.id
                           ? "text-white"
                           : "text-[#006eff]"
-                      } text-[1.5rem] ml-2`}
+                      } interactive-icon text-[1.5rem] ml-2`}
                     >
                       <BsArrowRightCircle />
                     </span>
@@ -349,7 +372,7 @@ const ServicePage = () => {
                       {t("Step3")}
                     </p>
                   </div>
-                  <Link href={`/${locale}/appointment`} className="mt-5">
+                  <Link href={`/${locale}/appointment`} className="premium-button-shell mt-5">
                     <ThemeProvider theme={theme}>
                       <Button
                         size="large"
@@ -373,20 +396,29 @@ const ServicePage = () => {
               </div>
             </div>
             <div className="flex flex-col w-2/3 h-[64rem]">
-              <div className="flex relative w-full min-h-[25rem] rounded-lg overflow-hidden">
-                <Image
-                  src={serviceIMG}
-                  alt="Diagnostic"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover"
-                />
-              </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={serviceIMG}
+                  className="flex relative w-full min-h-[25rem] rounded-lg overflow-hidden"
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.28, ease: "easeOut" }}
+                >
+                  <Image
+                    src={serviceIMG}
+                    alt={nameService}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover"
+                  />
+                </motion.div>
+              </AnimatePresence>
               <div className="flex flex-col w-full h-full justify-between">
-                <div className="flex flex-col w-full h-auto">
+                <motion.div key={nameService} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28 }} className="flex flex-col w-full h-auto">
                   <h2 className="text-[2rem] font-bold my-5">{nameService}</h2>
                   <p className="font-normal">{descriptionService}</p>
-                </div>
+                </motion.div>
                 <div className="flex flex-col w-full justify-end">
                   <h3 className="font-semibold my-5">{t("AdvantageTitle")}</h3>
                   <div className="flex w-full h-[10rem]">

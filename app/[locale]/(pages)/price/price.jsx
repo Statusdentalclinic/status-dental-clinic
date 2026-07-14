@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import useSWR from "swr";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
-import { popup_form_variants } from "@/utils/variants";
+import { fade_up_variants, popup_form_variants } from "@/utils/variants";
 // --------------Import MUI components-----------------//
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
@@ -68,15 +68,20 @@ const PricePage = () => {
 
   return (
     <>
-      <section className="flex relative flex-col w-full h-auto items-center py-10 sm:py-[5rem] container-padding">
+      <motion.section
+        className="flex relative flex-col w-full h-auto items-center py-10 sm:py-[5rem] container-padding"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.25 }}
+      >
         {/* Title */}
-        <div className="flex flex-col w-full max-w-[40rem] lg:max-w-[50rem] h-auto items-center m-10">
+        <motion.div variants={fade_up_variants} className="flex flex-col w-full max-w-[40rem] lg:max-w-[50rem] h-auto items-center m-10">
           <p className="blue-text">{t("nameTitle")}</p>
           <h1 className="title-text-m sm:title-text text-center">
             {t("Title1")} <span className="blue-text">{t("Title2")}</span>{" "}
             {t("Title3")}
           </h1>
-        </div>
+        </motion.div>
         {!data && !error && (
           <div className="flex justify-center items-center w-full h-full">
             <p className="font-semibold text-[1.5rem]">{t("loading")}</p>
@@ -97,13 +102,26 @@ const PricePage = () => {
           id="Down"
           className="flex flex-wrap w-full h-auto min-h-[38rem] justify-center items-center"
         >
+          {!error && data && data.length === 0 && (
+            <motion.div
+              className="interactive-card flex flex-col w-full max-w-[40rem] items-center justify-center rounded-md border border-[#006eff40] bg-white p-8 text-center shadow-sm"
+              variants={fade_up_variants}
+            >
+              <h2 className="text-[1.5rem] font-semibold blue-text">
+                {t("emptyTitle")}
+              </h2>
+              <p className="mt-3 text-[#444]">
+                {t("emptyDescription")}
+              </p>
+            </motion.div>
+          )}
           {!error &&
             data
               ?.sort((a, b) => a.order - b.order)
               .map((category) => (
                 <div
                   key={category.id}
-                  className="flex flex-col w-full h-auto my-2 mx-[1rem] sm:mx-[4rem] lg:mx-[8rem] border-[1px] border-[#006eff] rounded-md cursor-pointer overflow-hidden"
+                  className="interactive-card flex flex-col w-full h-auto my-2 mx-[1rem] sm:mx-[4rem] lg:mx-[8rem] border-[1px] border-[#006eff] rounded-md cursor-pointer overflow-hidden"
                 >
                   <div
                     onClick={() => toggleCategory(category.id)}
@@ -151,7 +169,7 @@ const PricePage = () => {
                             .map((pricing, index) => (
                               <li
                                 key={pricing.id}
-                                className="flex w-full min-h-[3rem] justify-between border-b-[1px] items-center px-1 sm:px-5 py-2"
+                                className="flex w-full min-h-[3rem] justify-between border-b-[1px] items-center px-1 sm:px-5 py-2 transition-colors hover:bg-[#006eff08]"
                               >
                                 {/* -----Service name----- */}
                                 <p className="flex mx-2">
@@ -210,7 +228,7 @@ const PricePage = () => {
             </div>
           </div>
         )}
-      </section>
+      </motion.section>
       {/* -----Online Appointment Section----- */}
       <OnlineAppointment />
       {/* -----Cases Section----- */}

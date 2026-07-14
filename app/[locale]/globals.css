@@ -66,3 +66,128 @@ body {
   border-radius: 0.5rem;
   box-shadow: inset 10px 0 15px #006eff;
 }
+
+.premium-button-shell {
+  display: inline-flex;
+  border-radius: 999px;
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.premium-button-shell:hover {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 14px 18px rgba(0, 110, 255, 0.18));
+}
+
+.premium-button-shell:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.interactive-card {
+  transition: transform 220ms ease, box-shadow 220ms ease,
+    border-color 220ms ease, background-color 220ms ease;
+}
+
+.interactive-card:hover {
+  transform: translateY(-4px);
+  border-color: #006eff;
+  box-shadow: 0 18px 34px rgba(0, 52, 120, 0.13);
+}
+
+.interactive-icon {
+  transition: transform 220ms ease, color 220ms ease;
+}
+
+.interactive-card:hover .interactive-icon,
+.premium-button-shell:hover .interactive-icon {
+  transform: translate(3px, -3px) scale(1.04);
+}
+
+.nav-link-underline {
+  position: relative;
+}
+
+.nav-link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.35rem;
+  height: 2px;
+  background: #006eff;
+  border-radius: 999px;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 220ms ease;
+}
+
+.nav-link-underline:hover::after,
+.nav-link-underline[data-active="true"]::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.soft-blue-surface {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(0, 110, 255, 0.12), transparent 28%),
+    radial-gradient(circle at 82% 78%, rgba(0, 110, 255, 0.08), transparent 30%),
+    #ffffff;
+}
+
+.footer-surface {
+  background: oklch(14% 0.015 252);
+  color: oklch(97% 0.006 252);
+}
+
+.footer-muted-line {
+  border-color: oklch(92% 0.01 252 / 0.75);
+}
+
+.footer-link-motion {
+  position: relative;
+  display: inline-flex;
+  width: fit-content;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.footer-link-motion::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.2rem;
+  height: 1px;
+  background: #006eff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 200ms ease;
+}
+
+.footer-link-motion:hover {
+  color: oklch(72% 0.18 255);
+  transform: translateX(2px);
+}
+
+.footer-link-motion:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.social-link-motion {
+  transition: transform 180ms ease, color 180ms ease;
+}
+
+.social-link-motion:hover {
+  color: oklch(72% 0.18 255);
+  transform: translateY(-2px) scale(1.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
