@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 // --------------Internal components------------------//
@@ -67,28 +67,28 @@ const Appointment = () => {
     setSelectedDoctor(e.target.value);
   };
 
-  const handleDaySchedule = (schedule) => {
+  const handleDaySchedule = useCallback((schedule) => {
     setDaySchedules(schedule);
-  };
+  }, []);
 
-  const resetSelectedDates = () => {
+  const resetSelectedDates = useCallback(() => {
     setResSelectedDates([]);
     setSelectedDates([]);
     setSelectedTimes([]);
-  };
-  const resetCheckbox = () => {
+  }, []);
+  const resetCheckbox = useCallback(() => {
     setClearCheckbox(Date.now());
-  };
+  }, []);
   // -----------Action from ScheduleGenerator-----------//
-  const sdAction = (value) => {
+  const sdAction = useCallback((value) => {
     setDeleting(value);
     setSaving(value);
-  };
+  }, []);
 
   // -----------Alert windows--------------------------//
-  const showAlert = (severity, message) => {
+  const showAlert = useCallback((severity, message) => {
     setAlertConfig({ open: true, severity, message });
-  };
+  }, []);
   const handleCloseAlert = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -97,9 +97,9 @@ const Appointment = () => {
     setAlertConfig({ ...alertConfig, open: false });
   };
 
-  const transferableDate = (currentDate) => {
+  const transferableDate = useCallback((currentDate) => {
     setCurrentDate(currentDate);
-  };
+  }, []);
 
   return (
     <>

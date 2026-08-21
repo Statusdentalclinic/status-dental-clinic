@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -13,8 +13,6 @@ import { SlNote } from "react-icons/sl";
 const AdminNav = () => {
   const pathname = usePathname();
   const locale = pathname.split("/")[1];
-
-  const [activeIndex, setActiveIndex] = useState(0);
 
   // --------Translations----------//
   const t = useTranslations("AdminNav");
@@ -42,12 +40,10 @@ const AdminNav = () => {
     },
   ];
 
-  useEffect(() => {
-    const currentIndex = icons.findIndex((item) => item.link === pathname);
-    if (currentIndex !== -1) {
-      setActiveIndex(currentIndex);
-    }
-  }, [pathname]);
+  const activeIndex = Math.max(
+    icons.findIndex((item) => item.link === pathname),
+    0
+  );
 
   return (
     <div className="flex w-full h-auto">

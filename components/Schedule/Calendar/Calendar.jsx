@@ -65,9 +65,13 @@ export default function Calendar({
         .catch((error) => {
           console.error("Error loading slots:", error);
           setSlots([]); // Clear slots if error occurs
+          onDaySchedule({});
+          isLoadingSchedule(false);
         });
     } else {
       setSlots([]); // Clear slots if no doctor is selected
+      onDaySchedule({});
+      isLoadingSchedule(false);
     }
   }, [isLoadingSchedule, onDaySchedule, resetSelectedDates, selectedDoctor]);
 
